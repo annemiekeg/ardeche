@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Ardèche vakantieplanner met kaart</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <div>
+    <h1>Ardèche vakantieplanner</h1>
+    <p>Camping du Pont als startpunt, kaart op aanvraag, filters, regio’s, favorieten, gedaan, notities en 17-dagenplanner.</p>
+  </div>
+  <div class="heroStats">
+    <div><b id="statTotal">—</b><span>activiteiten</span></div>
+    <div><b id="statVisible">—</b><span>zichtbaar</span></div>
+    <div><b id="statFav">—</b><span>favoriet</span></div>
+    <div><b id="statDone">—</b><span>gedaan</span></div>
+  </div>
+</header>
+
+<nav class="topbar">
+  <div class="tabs">
+    <button data-tab="list" class="active">Overzicht</button>
+    <button data-tab="map">Kaart</button>
+    <button data-tab="regions">Regio’s</button>
+    <button data-tab="top">Top 20</button>
+    <button data-tab="planner">Planner</button>
+  </div>
+
+  <section class="filters">
+    <input id="search" placeholder="Zoek: kano, grot, Balazuc, regen, 5 km…">
+    <select id="age">
+      <option value="all">Geen leeftijdsfilter</option>
+      <option value="6">Kato kan mee</option>
+      <option value="8">Vanaf Tibbe/Rover</option>
+      <option value="12">Vanaf Jens</option>
+      <option value="14">Vanaf Lize/volwassenen</option>
+      <option value="adult">Volwassen/ervaren</option>
+    </select>
+    <select id="category">
+      <option value="">Alle categorieën</option>
+      <option value="water">Water</option>
+      <option value="walk">Wandelen</option>
+      <option value="adventure">Avontuur</option>
+      <option value="culture">Dorpjes/cultuur</option>
+      <option value="indoor">Binnen/grotten</option>
+      <option value="bike">Fietsen</option>
+      <option value="sport">Sportief</option>
+    </select>
+    <select id="region">
+      <option value="">Alle regio’s</option>
+    </select>
+    <select id="drive">
+      <option value="999">Alle reistijden</option>
+      <option value="10">&lt; 10 min</option>
+      <option value="20">&lt; 20 min</option>
+      <option value="30">&lt; 30 min</option>
+      <option value="45">&lt; 45 min</option>
+      <option value="60">&lt; 60 min</option>
+    </select>
+    <select id="special">
+      <option value="">Geen extra filter</option>
+      <option value="hot">Hete dag</option>
+      <option value="rain">Regen</option>
+      <option value="free">Gratis</option>
+      <option value="fav">Favorieten</option>
+      <option value="todo">Nog te doen</option>
+    </select>
+    <button id="reset">Reset</button>
+  </section>
+</nav>
+
+<main>
+  <section id="mapView" class="view">
+    <aside class="mapSide">
+      <h2>Op de kaart</h2>
+      <p class="small">De kaart wordt alleen geladen als je dit tabblad opent. Als OpenStreetMap traag is, gebruik dan de Maps-knoppen; die zijn betrouwbaarder voor navigatie. Camping du Pont staat als tent-icoon op de kaart.</p>
+      <div class="legend">
+        <span><i class="dot water"></i> Water</span>
+        <span><i class="dot walk"></i> Wandelen</span>
+        <span><i class="dot adventure"></i> Avontuur</span>
+        <span><i class="dot culture"></i> Dorpjes</span>
+        <span><i class="dot indoor"></i> Binnen</span>
+        <span><i class="dot bike"></i> Fietsen</span>
+        <span><i class="dot sport"></i> Sportief</span>
+      </div>
+      <div id="nearbyList" class="nearby"></div>
+    </aside>
+    <div id="map"><div class="mapPlaceholder">Kaart wordt pas geladen wanneer je dit tabblad opent.</div></div>
+  </section>
+
+  <section id="listView" class="view active">
+    <div id="cards" class="cards"></div>
+  </section>
+
+  <section id="regionsView" class="view">
+    <div id="regionsList" class="regions"></div>
+  </section>
+
+  <section id="topView" class="view">
+    <div id="topCards" class="cards"></div>
+  </section>
+
+  <section id="plannerView" class="view">
+    <div class="plannerTools">
+      <select id="planActivity"></select>
+      <select id="planDay"></select>
+      <button id="addPlan">Toevoegen aan dag</button>
+    </div>
+    <div id="planner" class="planner"></div>
+  </section>
+</main>
+
+<dialog id="detailDialog">
+  <div id="detailContent"></div>
+</dialog>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
