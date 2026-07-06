@@ -76,15 +76,16 @@
   <section id="mapView" class="view">
     <aside class="mapSide">
       <h2>Op de kaart</h2>
-      <p class="small">De kaart wordt alleen geladen als je dit tabblad opent. Als OpenStreetMap traag is, gebruik dan de Maps-knoppen; die zijn betrouwbaarder voor navigatie. Camping du Pont staat als tent-icoon op de kaart.</p>
-      <div class="legend">
-        <span><i class="dot water"></i> Water</span>
-        <span><i class="dot walk"></i> Wandelen</span>
-        <span><i class="dot adventure"></i> Avontuur</span>
-        <span><i class="dot culture"></i> Dorpjes</span>
-        <span><i class="dot indoor"></i> Binnen</span>
-        <span><i class="dot bike"></i> Fietsen</span>
-        <span><i class="dot sport"></i> Sportief</span>
+      <p class="small">Camping du Pont staat op de GPS-locatie van de camping, links/westelijk van Pradons, als tent-icoon. Activiteiten op of direct vanaf de camping worden in een waaier rond de camping getoond, zodat je ze los kunt aanklikken.</p>
+      <div class="legend" id="mapLegend">
+        <button data-cat=""><i class="dot all"></i> Alles</button>
+        <button data-cat="water"><i class="dot water"></i> Water</button>
+        <button data-cat="walk"><i class="dot walk"></i> Wandelen</button>
+        <button data-cat="adventure"><i class="dot adventure"></i> Avontuur</button>
+        <button data-cat="culture"><i class="dot culture"></i> Dorpjes</button>
+        <button data-cat="indoor"><i class="dot indoor"></i> Binnen</button>
+        <button data-cat="bike"><i class="dot bike"></i> Fietsen</button>
+        <button data-cat="sport"><i class="dot sport"></i> Sportief</button>
       </div>
       <div id="nearbyList" class="nearby"></div>
     </aside>

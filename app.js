@@ -42,6 +42,22 @@ function categoryInfo(cat, types=[]){
   return {key:"walk", emoji:"🥾", label:"Wandelen & uitzicht", color:"#2f7d55", bg:"linear-gradient(135deg,#2f6b4f,#d7b56d)"};
 }
 
+
+function distanceKm(lat1, lon1, lat2, lon2){
+  const R=6371, dLat=(lat2-lat1)*Math.PI/180, dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function sameCampingCluster(a){ return distanceKm(a.lat,a.lon,CAMPING.lat,CAMPING.lon) <= 0.45; }
+function markerLatLng(a,index,groupSize){
+  if(!sameCampingCluster(a)||groupSize<=1) return [a.lat,a.lon];
+  const angle=(Math.PI*2*index/groupSize)-Math.PI/2;
+  const radiusKm=0.24+Math.min(groupSize,8)*0.025;
+  const latOffset=(radiusKm/111)*Math.sin(angle);
+  const lonOffset=(radiusKm/(111*Math.cos(CAMPING.lat*Math.PI/180)))*Math.cos(angle);
+  return [a.lat+latOffset,a.lon+lonOffset];
+}
+
 function ageLabel(a){
   if(a.age <= 6) return "Kato+";
   if(a.age <= 8) return "Tibbe/Rover+";
@@ -148,7 +164,19 @@ function renderRegions(){
 
 function renderNearby(arr){
   const near = arr.slice().sort((a,b)=>a.drive-b.drive).slice(0,10);
-  $("nearbyList").innerHTML = `<div class="mapLinks"><a target="_blank" href="https://www.google.com/maps/search/activities+near+Camping+du+Pont+Pradons+Ardeche">Open in Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/Camping+du+Pont+Pradons+Ardeche/Pont+d%27Arc+Ardeche">Route Pont d\'Arc</a></div><h3>Dichtbij / logisch eerst</h3>` + near.map(a => `<div class="nearItem" onclick="openDetail('${a.id}')"><b>${esc(a.title)}</b><span>🚗 ${a.drive} min · ${esc(a.region)} · ${ageLabel(a)}</span></div>`).join("");
+  $("nearbyList").innerHTML = `<div class="mapLinks"><a target="_blank" href="https://www.google.com/maps/search/activities+near+Camping+du+Pont+Pradons+Ardeche">Open in Google Maps</a><a target="_blank" href="https://www.google.com/maps/dir/Camping+du+Pont+Pradons+Ardeche/Pont+d%27Arc+Ardeche">Route Pont d'Arc</a></div><h3>Dichtbij / logisch eerst</h3>` + near.map(a => {
+    const fav = state.favs.has(a.id), done = state.done.has(a.id);
+    return `<div class="nearItem" onclick="openDetail('${a.id}')">
+      <b>${esc(a.title)}</b><span>${a.top ? "⭐ Top" : ""}</span>
+      <div class="nearMeta"><span class="miniPill">🚗 ${a.drive} min</span><span class="miniPill">${ageLabel(a)}</span><span class="miniPill">${esc(a.region)}</span><span class="miniPill">💪 ${stars(a.difficulty)}</span></div>
+      <div class="nearDesc">${esc(a.desc)}</div>
+      <div class="nearActions" onclick="event.stopPropagation()">
+        <button class="${fav ? "on" : ""}" onclick="toggleFav('${a.id}')">⭐</button>
+        <button class="${done ? "doneOn" : ""}" onclick="toggleDone('${a.id}')">✅</button>
+        <a href="${a.maps}" target="_blank">Maps</a>
+      </div>
+    </div>`;
+  }).join("");
 }
 
 function initMap(){
@@ -184,11 +212,11 @@ function initMap(){
   ].forEach(c => L.circle([CAMPING.lat, CAMPING.lon], {radius:c.r, color:c.color, weight:1, fill:false, opacity:.55}).addTo(circlesGroup));
 }
 
-function markerIcon(a){
+function markerIcon(a, extraClass=''){
   const info = categoryInfo(a.mainCat, a.type);
   return L.divIcon({
     className:"",
-    html:`<div class="markerIcon" style="background:${info.color}">${info.emoji}</div>`,
+    html:`<div class="markerIcon${extraClass}" style="background:${info.color}">${info.emoji}</div>`,
     iconSize:[30,30],
     iconAnchor:[15,15],
     popupAnchor:[0,-14]
@@ -200,12 +228,21 @@ function renderMap(){
   layerGroup.clearLayers();
   const arr = visibleActivities();
   const bounds = [[CAMPING.lat, CAMPING.lon]];
+  const campingCluster = arr.filter(sameCampingCluster);
+  let campingIndex = 0;
   for(const a of arr){
-    const m = L.marker([a.lat, a.lon], { icon: markerIcon(a) }).addTo(layerGroup);
+    let ll = [a.lat, a.lon];
+    let extraClass = "";
+    if(sameCampingCluster(a)){
+      ll = markerLatLng(a, campingIndex, campingCluster.length);
+      campingIndex++;
+      extraClass = " offsetMarker";
+    }
+    const m = L.marker(ll, { icon: markerIcon(a, extraClass) }).addTo(layerGroup);
     m.bindPopup(`<div class="popupTitle">${esc(a.title)}</div>
       <div>🚗 ${a.drive} min · ${ageLabel(a)}<br>${esc(a.region)}</div>
       <div class="popupActions"><button onclick="openDetail('${a.id}')">Details</button><button onclick="toggleFav('${a.id}')">⭐</button><button onclick="toggleDone('${a.id}')">✅</button></div>`);
-    bounds.push([a.lat, a.lon]);
+    bounds.push(ll);
   }
   renderNearby(arr);
   setTimeout(() => {
@@ -235,6 +272,7 @@ function render(){
   if(state.tab === "top") renderTop();
   if(state.tab === "planner") renderPlanner();
   updateStats();
+  document.querySelectorAll("#mapLegend button").forEach(b => b.classList.toggle("active", (b.dataset.cat || "") === state.filters.category));
 }
 
 function toggleFav(id){
@@ -291,6 +329,14 @@ function populateRegions(){
   const regions = [...new Set(ACTIVITIES.map(a => a.region))].sort();
   $("region").innerHTML += regions.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
 }
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("#mapLegend button");
+  if(!btn) return;
+  state.filters.category = btn.dataset.cat || "";
+  $("category").value = state.filters.category;
+  render();
+});
 
 document.querySelectorAll(".tabs button").forEach(btn => btn.addEventListener("click", () => {
   state.tab = btn.dataset.tab;

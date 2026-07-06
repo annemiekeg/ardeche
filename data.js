@@ -1,7 +1,7 @@
 const CAMPING = {
   "name": "Camping du Pont, Pradons",
-  "lat": 44.482,
-  "lon": 4.359
+  "lat": 44.4743746,
+  "lon": 4.3548261
 };
 const ACTIVITIES = [
   {
@@ -20,8 +20,8 @@ const ACTIVITIES = [
     "cost": "Gratis",
     "heat": true,
     "rain": false,
-    "lat": 44.482,
-    "lon": 4.359,
+    "lat": 44.4743746,
+    "lon": 4.3548261,
     "photo": "ardeche river swimming family",
     "desc": "Makkelijkste daginvulling: zwemmen, dammetjes bouwen, schepnet mee en later weer terug naar de tent.",
     "link": "https://www.campingdupontardeche.com/le-camping/",
@@ -31,7 +31,7 @@ const ACTIVITIES = [
     "top": true,
     "mainCat": "water",
     "combine": [],
-    "region": "Dichtbij camping / Ruoms"
+    "region": "Op / vanaf de camping"
   },
   {
     "title": "Cirque de Gens korte lus",
@@ -49,10 +49,10 @@ const ACTIVITIES = [
     "cost": "Gratis",
     "heat": false,
     "rain": false,
-    "lat": 44.489,
-    "lon": 4.372,
+    "lat": 44.4762,
+    "lon": 4.3426,
     "photo": "Cirque de Gens Ardeche",
-    "desc": "Een van de mooiste korte wandelingen vlakbij de camping. Let op bij klifranden met jonge kinderen.",
+    "desc": "Korte wandeling vanaf de camping richting de Cirque de Gens, links/westelijk van de camping. Let op bij klifranden met jonge kinderen.",
     "link": "https://www.google.com/search?q=Cirque+de+Gens+wandeling+Ruoms",
     "id": "a002",
     "maps": "https://www.google.com/maps/search/?api=1&query=44.489,4.372",
@@ -64,7 +64,7 @@ const ACTIVITIES = [
       "Ruoms oude centrum + ijsje",
       "Via Ardèche - stukje fietsen vanaf Ruoms"
     ],
-    "region": "Dichtbij camping / Ruoms"
+    "region": "Cirque de Gens / vanaf camping"
   },
   {
     "title": "Ruoms oude centrum + ijsje",
@@ -243,8 +243,8 @@ const ACTIVITIES = [
     "cost": "Gratis",
     "heat": true,
     "rain": false,
-    "lat": 44.474,
-    "lon": 4.36,
+    "lat": 44.4736,
+    "lon": 4.3627,
     "photo": "Pradons Ardeche",
     "desc": "Voor een rustige avond: klein rondje in/om Pradons, zonder grote excursie.",
     "link": "https://www.google.com/search?q=Pradons+Ardeche+wandelen",
@@ -254,7 +254,7 @@ const ACTIVITIES = [
     "top": false,
     "mainCat": "walk",
     "combine": [],
-    "region": "Dichtbij camping / Ruoms"
+    "region": "Pradons dorp"
   },
   {
     "title": "Pont d'Arc uitzicht + zwemmen",
@@ -1865,10 +1865,10 @@ const ACTIVITIES = [
     "cost": "Gratis",
     "heat": false,
     "rain": false,
-    "lat": 44.489,
-    "lon": 4.372,
+    "lat": 44.4772,
+    "lon": 4.3395,
     "photo": "trail running Ardeche cliffs",
-    "desc": "Voor jou alleen: vroeg in de ochtend, prachtig licht, rotsen en uitzicht.",
+    "desc": "Voor jou alleen: trailrun vanaf de camping richting de Cirque de Gens, links/westelijk van de camping. Vroeg lopen bij warmte.",
     "link": "https://www.google.com/search?q=trail+Cirque+de+Gens+Ruoms",
     "id": "a065",
     "maps": "https://www.google.com/maps/search/?api=1&query=44.489,4.372",
@@ -1880,7 +1880,7 @@ const ACTIVITIES = [
       "Ruoms oude centrum + ijsje",
       "Via Ardèche - stukje fietsen vanaf Ruoms"
     ],
-    "region": "Dichtbij camping / Ruoms"
+    "region": "Cirque de Gens / vanaf camping"
   },
   {
     "title": "Hardlopen Via Ardèche",
@@ -1960,8 +1960,8 @@ const ACTIVITIES = [
     "cost": "Gratis",
     "heat": true,
     "rain": true,
-    "lat": 44.482,
-    "lon": 4.359,
+    "lat": 44.4743746,
+    "lon": 4.3548261,
     "photo": "camping pool family Ardeche",
     "desc": "Geen excursie, wel vakantie. Zwembad, boek, kaarten, boodschappen, vroeg eten.",
     "link": "https://www.campingdupontardeche.com/",
@@ -1971,7 +1971,7 @@ const ACTIVITIES = [
     "top": false,
     "mainCat": "walk",
     "combine": [],
-    "region": "Dichtbij camping / Ruoms"
+    "region": "Op / vanaf de camping"
   },
   {
     "title": "Boodschappen + kookavond thema Frans",
